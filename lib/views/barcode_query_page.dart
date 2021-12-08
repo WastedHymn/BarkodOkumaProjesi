@@ -1,9 +1,15 @@
+import 'package:barkod_okuma_projesi/controllers/barcode_query_page_controller.dart';
+import 'package:barkod_okuma_projesi/controllers/product_page_controller.dart';
 import 'package:barkod_okuma_projesi/widgets/custom_textfield_and_submit_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:get/get.dart';
 
 import '../size_config.dart';
 
-class BarcodeQueryPage extends StatelessWidget {
+class BarcodeQueryPage extends GetView<BarcodeQueryPageController> {
   BarcodeQueryPage({Key? key}) : super(key: key);
 
   final TextEditingController barcodeNumberController = TextEditingController();
@@ -18,6 +24,26 @@ class BarcodeQueryPage extends StatelessWidget {
       ),
     ),
   );
+
+  Future<void> scanBarcodeNormal() async {
+    String barcodeScanRes = "";
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#00ff00', 'Cancel', true, ScanMode.BARCODE);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+
+    if (barcodeScanRes.isNotEmpty) {
+      controller.updateScannedBarcode(barcode: barcodeScanRes);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +64,9 @@ class BarcodeQueryPage extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              const Spacer(
+              /*const Spacer(
                 flex: 1,
-              ),
+              ),*/
               //PRODUCT QUERY WITH BARCODE NUMBER
               Container(
                 decoration: boxDecor,
@@ -51,9 +77,9 @@ class BarcodeQueryPage extends StatelessWidget {
                   leftMargin: SizeConfig.safeBlockHorizontal * 20,
                 ),
               ),
-              const Spacer(
+              /*const Spacer(
                 flex: 1,
-              ),
+              ),*/
               //BARCODE QUERY WITH PRODUCT NAME
               Container(
                 decoration: boxDecor,
@@ -64,8 +90,43 @@ class BarcodeQueryPage extends StatelessWidget {
                   leftMargin: SizeConfig.safeBlockHorizontal * 20,
                 ),
               ),
-              const Spacer(
-                flex: 3,
+              Container(
+                decoration: boxDecor,
+                width: SizeConfig.safeBlockHorizontal * 100,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    //TEXTFIELD TITLE
+                    const Text(
+                      "BARKOD TARAMA İLE ÜRÜN SORGULAMA",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "Open Sans",
+                      ),
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.fromLTRB(
+                          0, SizeConfig.safeBlockVertical * 2, 0, 0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          scanBarcodeNormal().then((value) {
+                            printInfo(
+                                info: "BARCODE QUERY PAGE SCANNED BARCODE: " +
+                                    controller.scannedBarcode.value);
+                            if (controller.scannedBarcode.value.isNotEmpty) {
+                              ProductPageController productPageController =
+                                  Get.find<ProductPageController>();
+                              productPageController.changeBarcode(
+                                  newBarcode: controller.scannedBarcode.value);
+                            }
+                          });
+                        },
+                        child: const Icon(CupertinoIcons.camera_fill),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -75,59 +136,3 @@ class BarcodeQueryPage extends StatelessWidget {
     );
   }
 }
-
-
-/*
-Column(
-                  children: [
-                    Text(
-                      "BARKOD NUMARASI İLE ÜRÜN SORGULAMA",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "Open Sans",
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(
-                          SizeConfig.safeBlockHorizontal * 25, 0, 0, 0),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          //  border: Border.all(color: Colors.red),
-                          ),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: "Barkod Numarası",
-                          floatingLabelBehavior: FloatingLabelBehavior.auto,
-                          icon: Icon(Icons.search),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-
-Container(
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.black)),
-                child: Column(
-                  children: [
-                    Text(
-                      "ÜRÜN İSMI İLE BARKOD SORGULAMA",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "Open Sans",
-                      ),
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                        icon: Icon(Icons.search),
-                        labelText: "Ürün İsmi",
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ],
-                ),
-              ),                
- */

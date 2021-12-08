@@ -5,42 +5,87 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
 class ProductInformationPage extends GetView<ProductPageController> {
+  final TextStyle productInfoStyle = const TextStyle(
+    fontFamily: "Open Sans",
+    fontWeight: FontWeight.w300,
+  );
+  final TextStyle productInfoStyleBold = const TextStyle(
+    fontFamily: "Open Sans",
+    fontWeight: FontWeight.w500,
+  );
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Obx(
-                  () => CustomText(
-                    str: "Ürün İsmi: ",
-                    variableString: controller.productName.value,
-                  ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Ürün İsmi: ",
+                      style: productInfoStyleBold,
+                    ),
+                    Text(
+                      controller.productName.value,
+                      style: productInfoStyle,
+                    )
+                  ],
                 ),
-                Obx(
-                  () => CustomText(
-                    str: "Ürün Açıklaması: ",
-                    variableString: controller.productDescription.value,
-                  ),
+              ),
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Ürün Açıklaması: ",
+                      style: productInfoStyleBold,
+                    ),
+                    Text(
+                      controller.productDescription.value,
+                      style: productInfoStyle,
+                    )
+                  ],
                 ),
-                Obx(
-                  () => CustomText(
-                    str: "Ürün Fiyatı: ",
-                    variableString: controller.productPrice.value.toString(),
-                  ),
+              ),
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Ürün Fiyatı: ",
+                      style: productInfoStyleBold,
+                    ),
+                    Text(
+                      controller.productPrice.value.toString(),
+                      style: productInfoStyle,
+                    )
+                  ],
                 ),
-                Obx(
-                  () => CustomText(
-                    str: "Ürün Barkodu: ",
-                    variableString: controller.productBarcode.value.toString(),
-                  ),
-                ),
-              ],
-            ),
+              ),
+              Obx(
+                () {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Ürün Barkodu: ",
+                        style: productInfoStyleBold,
+                      ),
+                      Text(
+                        controller.productBarcode.value,
+                        style: productInfoStyle,
+                      )
+                    ],
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
