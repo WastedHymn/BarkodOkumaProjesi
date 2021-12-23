@@ -1,10 +1,10 @@
 import 'package:barkod_okuma_projesi/controllers/barcode_query_page_controller.dart';
-import 'package:barkod_okuma_projesi/controllers/product_page_controller.dart';
+//import 'package:barkod_okuma_projesi/controllers/product_page_controller.dart';
 import 'package:barkod_okuma_projesi/widgets/custom_textfield_and_submit_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_ml_kit/google_ml_kit.dart';
+//import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../size_config.dart';
@@ -26,6 +26,7 @@ class BarcodeQueryPage extends GetView<BarcodeQueryPageController> {
     ),
   );
 
+/*
   void scanBarcode(String pathIm) async {
     final inputImage = InputImage.fromFilePath(pathIm);
 
@@ -55,6 +56,7 @@ class BarcodeQueryPage extends GetView<BarcodeQueryPageController> {
 
     barcodeScanner.close();
   }
+*/
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +117,7 @@ class BarcodeQueryPage extends GetView<BarcodeQueryPageController> {
                         fontFamily: "Open Sans",
                       ),
                     ),
-
+                    //CAMERA BUTTON
                     Container(
                       margin: EdgeInsets.fromLTRB(
                           0, SizeConfig.safeBlockVertical * 2, 0, 0),
@@ -128,8 +130,9 @@ class BarcodeQueryPage extends GetView<BarcodeQueryPageController> {
                           )
                               .then((image) async {
                             String pathIm = image!.path;
-                            if (!pathIm.isEmpty) {
-                              scanBarcode(pathIm);
+                            if (pathIm.isNotEmpty) {
+                              //scanBarcode(pathIm);
+                              controller.scanBarcode(pathIm);
                             } else {
                               debugPrint(
                                   "[IMAGE PICKER WIDGET] IMAGE PATH IS EMPTY.");
