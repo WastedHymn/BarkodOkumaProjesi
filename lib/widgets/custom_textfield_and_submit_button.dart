@@ -31,7 +31,7 @@ class CustomTextfieldAndSubmitButton extends StatelessWidget {
         Container(
           margin: EdgeInsets.fromLTRB(leftMargin, 0, leftMargin, 0),
           alignment: Alignment.center,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               //  border: Border.all(color: Colors.red),
               ),
           child: TextField(
@@ -47,7 +47,7 @@ class CustomTextfieldAndSubmitButton extends StatelessWidget {
         //SUBMIT BUTTON
         OutlinedButton(
           onPressed: () {},
-          child: Text("ARA"),
+          child: const Text("ARA"),
         )
       ],
     );

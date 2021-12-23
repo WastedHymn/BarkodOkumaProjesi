@@ -1,5 +1,5 @@
 import 'package:barkod_okuma_projesi/controllers/product_page_controller.dart';
-import 'package:barkod_okuma_projesi/widgets/custom_text_widget.dart';
+//import 'package:barkod_okuma_projesi/widgets/custom_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
