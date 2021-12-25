@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class DashboardBinding extends Bindings {
   @override
   void dependencies() {
+    // ignore: todo
     // TODO: implement dependencies
     Get.lazyPut<DashboardController>(() => DashboardController());
     Get.lazyPut<ProductPageController>(() => ProductPageController());

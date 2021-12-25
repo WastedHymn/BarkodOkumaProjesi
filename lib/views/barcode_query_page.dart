@@ -1,10 +1,8 @@
 import 'package:barkod_okuma_projesi/controllers/barcode_query_page_controller.dart';
-//import 'package:barkod_okuma_projesi/controllers/product_page_controller.dart';
 import 'package:barkod_okuma_projesi/widgets/custom_textfield_and_submit_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-//import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../size_config.dart';
@@ -14,6 +12,7 @@ class BarcodeQueryPage extends GetView<BarcodeQueryPageController> {
 
   final TextEditingController barcodeNumberController = TextEditingController();
   final TextEditingController productNameController = TextEditingController();
+  final TextEditingController productIdController = TextEditingController();
 
   final BoxDecoration boxDecor = const BoxDecoration(
     border: Border(
@@ -25,38 +24,6 @@ class BarcodeQueryPage extends GetView<BarcodeQueryPageController> {
       ),
     ),
   );
-
-/*
-  void scanBarcode(String pathIm) async {
-    final inputImage = InputImage.fromFilePath(pathIm);
-
-    final barcodeScanner = GoogleMlKit.vision.barcodeScanner();
-
-    debugPrint("[SCAN BARCODE FUNCTION] SCANNING IMAGE...");
-    final List<Barcode> barcodes =
-        await barcodeScanner.processImage(inputImage).catchError((onError) {
-      debugPrint("[SCAN BARCODE FUNCTION] " + onError);
-    });
-
-    if (barcodes.isEmpty) {
-      debugPrint("[SCAN BARCODE FUNCTION] BARCODE NOT FOUND.");
-      return;
-    } else {
-      String scannedBarcode = barcodes.first.value.displayValue.toString();
-      ProductPageController productPageController =
-          Get.find<ProductPageController>();
-      productPageController.changeBarcode(newBarcode: scannedBarcode);
-      for (Barcode barcode in barcodes) {
-        debugPrint("[SCAN BARCODE FUNCTION] SCANNED BARCODE: " +
-            barcode.value.displayValue.toString());
-
-        //print("[OCR] BARCODE: " + barcode.value.displayValue.toString());
-      }
-    }
-
-    barcodeScanner.close();
-  }
-*/
 
   @override
   Widget build(BuildContext context) {
@@ -88,21 +55,10 @@ class BarcodeQueryPage extends GetView<BarcodeQueryPageController> {
                   textController: barcodeNumberController,
                   textFieldTitle: "BARKOD NUMARASI İLE ÜRÜN SORGULAMA",
                   leftMargin: SizeConfig.safeBlockHorizontal * 20,
+                  buttonId: 0,
                 ),
               ),
-              /*const Spacer(
-                flex: 1,
-              ),*/
-              //BARCODE QUERY WITH PRODUCT NAME
-              Container(
-                decoration: boxDecor,
-                child: CustomTextfieldAndSubmitButton(
-                  labelText: "Ürün İsmi",
-                  textController: productNameController,
-                  textFieldTitle: "ÜRÜN İSMI İLE BARKOD SORGULAMA",
-                  leftMargin: SizeConfig.safeBlockHorizontal * 20,
-                ),
-              ),
+              //GET BARCODE FROM IMAGE AND QUERY PRODUCT WITH SCANNED BARCODE
               Container(
                 decoration: boxDecor,
                 width: SizeConfig.safeBlockHorizontal * 100,
@@ -153,65 +109,3 @@ class BarcodeQueryPage extends GetView<BarcodeQueryPageController> {
     );
   }
 }
-
-
-/*
-                              File imageFile = File(image.path);
-                              Directory appDocDir =
-                                  await getApplicationDocumentsDirectory();
-                              String appDocPath = appDocDir.path;
-
-                              final newFile = await imageFile
-                                  .copy(appDocPath + "/newFile.png");
-                              imageFile.delete();
-                              print("[OCR] PATH: " + newFile.path);
-                              String ocrText =
-                                  await FlutterTesseractOcr.extractText(
-                                newFile.path,
-                                language: 'eng',
-                              ).then((value) {
-                                print("[OCR] OCR TEXT: " + value.toString());
-                                return "0";
-                              }).onError((error, stackTrace) {
-                                print("[OCR] ERROR: " + error.toString());
-                                print("[OCR] STACKTRACE: " +
-                                    stackTrace.toString());
-                                return "-1";
-                              });
-                              */
-
-                                 /*
-                          scanBarcodeNormal().then((value) {
-                            printInfo(
-                                info: "BARCODE QUERY PAGE SCANNED BARCODE: " +
-                                    controller.scannedBarcode.value);
-                            if (controller.scannedBarcode.value.isNotEmpty) {
-                              ProductPageController productPageController =
-                                  Get.find<ProductPageController>();
-                              productPageController.changeBarcode(
-                                  newBarcode: controller.scannedBarcode.value);
-                            }
-                          });
-                          */
-                          
-  /*
-  Future<void> scanBarcodeNormal() async {
-    String barcodeScanRes = "";
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#00ff00', 'Cancel', true, ScanMode.BARCODE);
-      print(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-
-    if (barcodeScanRes.isNotEmpty) {
-      controller.updateScannedBarcode(barcode: barcodeScanRes);
-    }
-  }
-*/
